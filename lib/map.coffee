@@ -5,7 +5,7 @@ require 'mapbox.js'
 
 module.exports = class Map
   domId: 'geosockets'
-  tileSet: 'examples.map-20v6611k' # 'financialtimes.map-w7l4lfi8'
+  styleLayer: 'mapbox://styles/mapbox/satellite-streets-v10'
   lastRenderedAt: 0
   maxRenderInterval: 5*1000 # Don't render more than once every five seconds
   users: [] # Container array for geodata between renders
@@ -39,16 +39,22 @@ module.exports = class Map
     link = document.createElement("link")
     link.rel = "stylesheet"
     link.type = "text/css"
-    link.href = "https://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.css"
+    link.href = "https://api.tiles.mapbox.com/mapbox.js/v3.1.0/mapbox.css"
     document.body.appendChild link
+
+    # Set required public access token
+    L.mapbox.accessToken = 'pk.eyJ1IjoiY3JjYXN0bGUiLCJhIjoiY2oxc2F4ejI4MDBkNjMybzZ0aTNjcXY2MiJ9.IF5z_CXdbmbF66ildjTM0A'
 
     # Create the Mapbox map
     @map = L.mapbox
-      .map(@domId, @tileSet)
+      .map(@domId)
       .setView(@defaultLatLng, @defaultZoom)
       .locate
         setView: true
         maxZoom: 11
+
+    # Use styleLayer to add a Mapbox style created in Mapbox Studio
+    L.mapbox.styleLayer(@styleLayer).addTo(@map);
 
     # Enable fullscreen option
     @map.addControl(new L.Control.Fullscreen());
