@@ -80,7 +80,7 @@ npm install -g grunt-cli
 The foreman [Procfile](https://github.com/heroku-examples/geosockets/blob/master/Procfile) defines the processes
 required to run the app. Fire up redis, a grunt watcher, and the node webserver at [localhost:5000/?debug](http://localhost:5000/?debug):
 
-````
+```
 foreman start
 ```
 
